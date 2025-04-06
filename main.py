@@ -1,10 +1,10 @@
-from ultralytics import YOLO
 import torch
 from autodistill.detection import CaptionOntology
 from autodistill_grounded_sam import GroundedSAM
 import supervision as sv
 import cv2
 import os
+import torch.version
 from ultralytics import YOLO
 
 if torch.cuda.is_available():
@@ -13,11 +13,11 @@ else:
     print("CUDA is not available")
     print(torch.version.cuda)
 
-# ontology = CaptionOntology({"DELL logo": "logo DELL"})
+# ontology = CaptionOntology({"fridge": "frigo", "sink": "evier", "oven": "four"})
 # base_model = GroundedSAM(ontology)
 
 # result = base_model.label(
-#   extension=".jpg",
+#   extension=".png",
 #   input_folder="./datasets/unlabeled",
 #   output_folder="./datasets/labeled",
 # )
@@ -49,8 +49,9 @@ else:
 #         print(f"Saved {image_name} to {save_dir}")
 
 
-yolo_model = YOLO("yolov8n.pt")
+yolo_model = YOLO("C:/Home/YoloTraining/runs/detect/train7/weights/best.pt")
 yolo_model.to("cuda" if torch.cuda.is_available() else "cpu")
+
 video_source = cv2.VideoCapture(0)
 
 while True:
